@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BoilerPlateJetPack</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <!-- Errors !-->
+    <string name="error_400">Bad request</string>
+    <string name="error_401">Authentication error</string>
+    <string name="error_404">Resource not found</string>
+    <string name="error_generic">Internal server error</string>
+    <string name="connection_error">Connection error</string>
+    <string name="no_permission">Not enough permissions granted</string>
+    <string name="login_error">Login Error</string>
+</resources>
