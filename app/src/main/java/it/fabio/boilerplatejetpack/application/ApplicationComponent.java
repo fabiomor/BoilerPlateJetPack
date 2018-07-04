@@ -12,17 +12,24 @@ import dagger.android.support.AndroidSupportInjectionModule;
 import it.fabio.boilerplatejetpack.control.ApiInterceptor;
 import it.fabio.boilerplatejetpack.factory.ViewModelFactory;
 import it.fabio.boilerplatejetpack.modules.main.MainActivity;
+import it.fabio.boilerplatejetpack.modules.main.MainActivityModule;
+import it.fabio.boilerplatejetpack.qualifiers.ApplicationContext;
 import it.fabio.boilerplatejetpack.repository.local.LocalDataRepository;
 import it.fabio.boilerplatejetpack.repository.remote.ApiService;
 import it.fabio.boilerplatejetpack.repository.remote.RemoteDataRepository;
 
 @Singleton
-@Component(modules = {ApplicationModule.class})
+@Component(modules = {
+        ApplicationModule.class,
+        AndroidInjectionModule.class,
+        MainActivityModule.class})
 public interface ApplicationComponent {
-    ApiService exposeApiServices();
-    ApiInterceptor exposeApiInterceptor();
-    Context exposeContext();
-    LocalDataRepository exposeLocalDAO();
-    RemoteDataRepository exposeRemoteDAO();
-    ViewModelFactory exposeViewModelFactory();
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance Builder application(Application application);
+        ApplicationComponent build();
+    }
+
+    void inject(App app);
 }

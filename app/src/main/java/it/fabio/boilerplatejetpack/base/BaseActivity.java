@@ -37,7 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @CallSuper
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
-        resolveDaggerDependency();
         unbinder = ButterKnife.bind(this);
     }
 
@@ -125,12 +124,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         Log.e(TAG, error.getMessage());
     }
-
-    protected ApplicationComponent getApplicationComponent() {
-        return ((App) getApplication()).getApplicationComponent();
-    }
-
-    protected abstract void resolveDaggerDependency();
 
     protected abstract int getContentView();
 

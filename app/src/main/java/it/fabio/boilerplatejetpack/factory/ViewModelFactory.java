@@ -5,14 +5,17 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import it.fabio.boilerplatejetpack.modules.main.MainViewModel;
 import it.fabio.boilerplatejetpack.repository.local.LocalDataRepository;
 
+@Singleton
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     LocalDataRepository localDataRepository;
 
+    @Inject
     public ViewModelFactory(LocalDataRepository localDataRepository) {
         this.localDataRepository = localDataRepository;
     }

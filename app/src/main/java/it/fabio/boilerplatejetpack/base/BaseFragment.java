@@ -32,7 +32,6 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        resolveDaggerDependencies();
         View view = inflater.inflate(getContentView(), container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -56,8 +55,6 @@ public abstract class BaseFragment extends Fragment {
         hideDialog();
         unregisterListeners();
     }
-
-    abstract protected void resolveDaggerDependencies();
 
     abstract protected int getContentView();
 

@@ -7,5 +7,5 @@ import it.fabio.boilerplatejetpack.scope.PerFragment;
 @PerFragment
 @Component(dependencies = ApplicationComponent.class)
 public interface MainFragmentComponent {
-    void inject(MainFragment mainFragment);
+//    void inject(MainFragment mainFragment);
 }

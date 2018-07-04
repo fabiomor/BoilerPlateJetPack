@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,16 +18,19 @@ import android.view.View;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import it.fabio.boilerplatejetpack.R;
 import it.fabio.boilerplatejetpack.base.BaseActivity;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
     @Inject
-    Context context;
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,16 +56,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    protected void resolveDaggerDependency() {
-        DaggerMainActivityComponent
-                .builder()
-                .applicationComponent(getApplicationComponent())
-                .mainActivityModule(new MainActivityModule())
-                .build()
-                .inject(this);
-    }
-
-    @Override
     protected int getContentView() {
         return R.layout.main_activity;
     }
@@ -73,7 +67,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_settings:
                 break;
             case R.id.nav_logout:
@@ -100,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
             case R.id.action_logout:
@@ -108,5 +102,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }

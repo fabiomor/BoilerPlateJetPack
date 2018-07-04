@@ -1,5 +1,6 @@
 package it.fabio.boilerplatejetpack.application;
 
+import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import dagger.Module;
 import dagger.Provides;
 import it.fabio.boilerplatejetpack.control.ApiInterceptor;
 import it.fabio.boilerplatejetpack.factory.ViewModelFactory;
+import it.fabio.boilerplatejetpack.qualifiers.ApplicationContext;
 import it.fabio.boilerplatejetpack.repository.local.LocalDataRepository;
 import it.fabio.boilerplatejetpack.repository.local.LocalRepository;
 import it.fabio.boilerplatejetpack.repository.local.RoomDb;
@@ -36,17 +38,13 @@ import static it.fabio.boilerplatejetpack.utils.Constants.CONFIG.RETROFIT_API_CO
 @Module
 public class ApplicationModule {
 
-    Context context;
-
-    public ApplicationModule(Context context){
-        this.context = context;
-    }
-
-    @Singleton
     @Provides
-    Context providesContext(){
-        return context;
+    @Singleton
+    @ApplicationContext
+    Context provideContext(Application application) {
+        return application;
     }
+
 
     @Singleton
     @Provides
@@ -98,7 +96,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    Cache provideOkHttpCache(Context context) {
+    Cache provideOkHttpCache(@ApplicationContext Context context) {
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
         return new Cache(context.getCacheDir(), cacheSize);
     }
@@ -111,13 +109,13 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    SharedPreferences providesSharedPreferences(Context context){
+    SharedPreferences providesSharedPreferences(@ApplicationContext Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Provides
     @Singleton
-    LocalDataRepository providesLocalDAO(Context context, SharedPreferences sharedPreferences){
+    LocalDataRepository providesLocalDAO(@ApplicationContext Context context, SharedPreferences sharedPreferences){
         return new LocalRepository(new RoomDbManager(RoomDb.getDatabase(context)), new SharedPreferencesManager(sharedPreferences, context));
     }
 
@@ -125,12 +123,6 @@ public class ApplicationModule {
     @Singleton
     RemoteDataRepository providesRemoteDAO(ApiService apiService, ApiInterceptor apiInterceptor){
         return new RemoteRepository();
-    }
-
-    @Provides
-    @Singleton
-    ViewModelFactory providesViewModelFactory(LocalDataRepository localDataRepository){
-        return new ViewModelFactory(localDataRepository);
     }
 
 }

@@ -18,11 +18,12 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import it.fabio.boilerplatejetpack.R;
 import it.fabio.boilerplatejetpack.base.BaseFragment;
+import it.fabio.boilerplatejetpack.di.Injectable;
 import it.fabio.boilerplatejetpack.factory.ViewModelFactory;
 import it.fabio.boilerplatejetpack.repository.data.User;
 import timber.log.Timber;
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements Injectable {
 
     private MainViewModel mViewModel;
 
@@ -34,15 +35,6 @@ public class MainFragment extends BaseFragment {
 
     @Inject
     ViewModelFactory viewModelFactory;
-
-    @Override
-    protected void resolveDaggerDependencies() {
-        DaggerMainFragmentComponent
-                .builder()
-                .applicationComponent(getApplicationComponent())
-                .build()
-                .inject(this);
-    }
 
     @Override
     protected int getContentView() {

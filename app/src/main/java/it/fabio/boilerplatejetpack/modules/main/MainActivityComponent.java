@@ -5,7 +5,5 @@ import it.fabio.boilerplatejetpack.application.ApplicationComponent;
 import it.fabio.boilerplatejetpack.scope.PerActivity;
 
 @PerActivity
-@Component(modules = MainActivityModule.class, dependencies = ApplicationComponent.class)
-public interface MainActivityComponent {
-    void inject(MainActivity mainActivity);
-}
+@Component(modules = MainActivityModule.class)
+public interface MainActivityComponent { }
